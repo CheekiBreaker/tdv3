@@ -1,39 +1,32 @@
 import { createStore } from "vuex";
 
-export default createStore({
+const store = createStore({
   state: {
     todos: [],
   },
   mutations: {
     addTodo(state, todo) {
-      state.todos.push(todo);
-      localStorage.setItem("todos", JSON.stringify(state.todos));
+      // Проверяем, существует ли уже задача с таким же текстом
+      const existingTodo = state.todos.find((t) => t.text === todo.text);
+
+      // Если такой задачи нет, добавляем новую
+      if (!existingTodo) {
+        state.todos.push(todo);
+      }
     },
-    updateTodo(state, payload) {
-      const index = state.todos.findIndex((todo) => todo.id === payload.id);
-      state.todos[index] = payload;
-      localStorage.setItem("todos", JSON.stringify(state.todos));
-    },
-    deleteTodo(state, id) {
+    removeTodo(state, id) {
       const index = state.todos.findIndex((todo) => todo.id === id);
-      state.todos.splice(index, 1);
-      localStorage.setItem("todos", JSON.stringify(state.todos));
+      if (index !== -1) {
+        state.todos.splice(index, 1);
+      }
     },
-  },
-  actions: {
-    addTodoAction({ commit }, todo) {
-      commit("addTodo", todo);
-    },
-    updateTodoAction({ commit }, todo) {
-      commit("updateTodo", todo);
-    },
-    deleteTodoAction({ commit }, id) {
-      commit("deleteTodo", id);
-    },
-  },
-  getters: {
-    getTodos: (state) => {
-      return state.todos;
+    editTodo(state, todo) {
+      const index = state.todos.findIndex((t) => t.id === todo.id);
+      if (index !== -1) {
+        state.todos[index] = todo;
+      }
     },
   },
 });
+
+export default store;

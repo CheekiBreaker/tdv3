@@ -92,7 +92,7 @@ ul {
   text-align: center;
   display: flex;
   flex-direction: row;
-  width: 400px;
+  width: 100%;
   vertical-align: middle;
   justify-content: space-around;
 }
@@ -103,7 +103,11 @@ input{
   text-align: center;
   width: 100px;
 }
-
+.todo__text{
+  width: 100px;
+  align-items: center;
+  display: flex;
+}
 .container {
   display: flex;
   flex-direction: column;
